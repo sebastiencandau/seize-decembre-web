@@ -21,6 +21,7 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
   const [isWriting, setIsWriting] = useState(false);
   const [playerCanWrite, setPlayerCanWrite] = useState(true);
   const [exitPartie, setExitPartie] = useState(false);
+  const [musicMessage, setMusicMessage] = useState<string>();
 
   const fetchfollowingMessage = async () => {
     const messagesF = await followingMessage(chapter, choice!, playerName);
@@ -80,6 +81,9 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
         let futuresMessages = [...messages];
         futuresMessages.push(followMessage[0]);
         const updatedFutureMessages = followMessage.filter((msg) => msg !== followMessage[0]);
+        if(messages[0].link){
+          setMusicMessage(messages[0].link);
+        }
         setIsWriting(false);
         setMessages(futuresMessages);
         setFollowMessages(updatedFutureMessages);
@@ -114,9 +118,6 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
           >
             { item.received && item === messages[messages.length -1] &&
               <audio autoPlay={item.received} src={require('../../assets/musics/receive_message.mp3')} id="audio" />
-            }
-            {
-              item.link && <audio autoPlay={item.received} src={require(`../../assets/musics/${item.link}.mp3`)} id="audio" />
             }
             <span
               style={{
@@ -181,6 +182,9 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
         <>
           {
             conversation.music && <audio autoPlay src={require(`../../assets/musics/${conversation.music}.mp3`)} id="audio" />
+          }
+          {
+            musicMessage && <audio autoPlay src={require(`../../assets/musics/${musicMessage}.mp3`)} id="audio" />
           }
           <div className="profile-section">
             <span
