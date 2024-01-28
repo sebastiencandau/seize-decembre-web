@@ -81,7 +81,7 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
         let futuresMessages = [...messages];
         futuresMessages.push(followMessage[0]);
         const updatedFutureMessages = followMessage.filter((msg) => msg !== followMessage[0]);
-        if(messages[0].link){
+        if(messages[0] && messages[0].link){
           setMusicMessage(messages[0].link);
         }
         setIsWriting(false);
