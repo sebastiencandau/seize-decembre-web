@@ -41,13 +41,14 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
 
   useEffect(() => {
     if (messages.length > 0) {
-      console.log(messages);
       if (messages[messages.length - 1].type !== 'indication') {
-        if (messages[messages.length - 1].type !== null) {
-          localStorage.setItem('chapter', JSON.stringify(getFutureChapter(chapter)));
-          setTimeout(() => {
-            stopChapter();
-          }, 4000);
+        if (messages[messages.length - 1].type !== 'music') {
+          if (messages[messages.length - 1].type !== null) {
+            localStorage.setItem('chapter', JSON.stringify(getFutureChapter(chapter)));
+            setTimeout(() => {
+              stopChapter();
+            }, 4000);
+          }
         }
       }
     }
@@ -55,11 +56,9 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
 
   useEffect(() => {
     if (choice) {
-      console.log('alo')
       const newMessage = { type: null, received: false, msg: choice };
       let newMessages = messages;
       newMessages.push(newMessage);
-      console.log(newMessage);
       setMessages(newMessages);
       fetchfollowingMessage();
     }
@@ -89,13 +88,6 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
     }
   }, [followMessage]);
 
-  useEffect(() => {
-    console.log('JSHGUYFHSDJFKSKJF');
-    if(messages){
-      console.log(messages[messages.length - 1]);
-    }
-  }, [messages]);
-
   const renderMessage = (item: IMessage) => (
     <>
       { 
@@ -122,6 +114,9 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
           >
             { item.received && item === messages[messages.length -1] &&
               <audio autoPlay={item.received} src={require('../../assets/musics/receive_message.mp3')} id="audio" />
+            }
+            {
+              item.link && <audio autoPlay={item.received} src={require(`../../assets/musics/${item.link}.mp3`)} id="audio" />
             }
             <span
               style={{
