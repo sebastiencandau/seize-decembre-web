@@ -1,0 +1,195 @@
+/* MenuChapterOne.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  position: relative;
+  overflow: hidden; /* Cela masque le débordement flou en dehors du corps */
+  #root{
+    position: static!important;
+    height: auto!important;
+
+  }
+}
+
+.menu-container {
+  text-align: center;
+}
+
+.menu-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://www.numerama.com/wp-content/uploads/2018/08/ss_f589f1d664ad6932064052c265b59f9fa3eea322-1920x1080.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(5px); /* Ajoute l'effet de flou à l'arrière-plan seulement */
+  z-index: -1; /* Place l'élément pseudo-élément en dessous du contenu */
+}
+
+h1 {
+  margin-top: 1em;
+  font-size: 24px;
+  margin-bottom: 0.5em;
+  font-size: 1.5em;
+  font-weight: bold; /* Texte en gras */
+}
+
+h2{
+  margin-top: 0.3em;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  color: black;
+  font-size: 18px;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.7); /* Couleur du bouton */
+  border: none;
+  border-radius: 5px;
+  font-weight: bold; /* Texte en gras */
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.5); /* Changement de couleur au survol */
+}
+
+input {
+  padding: 10px;
+  font-size: 1em;
+  margin-bottom: 10px;
+}
+
+/* modale choix du nom */
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Place la modale au-dessus du menu flouté */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+}
+
+.modal {
+  border-radius: 20px;
+  background: rgba(39, 39, 39, 0.3); /* Fond semi-transparent pour le flou */
+  backdrop-filter: blur(8px); /* Ajoute un filtre de flou au fond */
+  width: 50%;
+  height: 50%;
+  overflow: hidden; /* Masque le débordement flou de l'enfant */
+  z-index: 1; /* Place la modale au-dessus du fond flou */
+  display: flex; /* Ajout de flexbox pour centrer les éléments */
+  flex-direction: column; /* Aligner les éléments verticalement */
+  justify-content: center; /* Centrer les éléments verticalement */
+  align-items: center; /* Centrer les éléments horizontalement */
+}
+
+.modal-content {
+  text-align: center;
+  width: 80%;
+}
+
+input {
+  background: transparent; /* Fond transparent pour le champ d'entrée */
+  width: 90%;
+  border: 1px solid black; /* Bordure blanche pour le contraste */
+  padding: 10px;
+  font-size: 16px;
+  color: black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Bouton stylisé */
+.modal-content button {
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 1em;
+  cursor: pointer;
+}
+
+/* les choix */
+
+.choices-container{
+  padding: 2em;
+  width: 50%;
+  height: 40em;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(42, 42, 42, 0.781);
+  border-radius: 20px;
+}
+
+.choices-list-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 40em;
+  height: 33em;
+  overflow-x: auto;
+  margin-bottom: 1em; 
+}
+
+.choices-list {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  padding: 0;
+}
+
+.choices-list li {
+  width: 30em;
+  align-items: center;
+  margin-right: 20px;
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  margin-bottom: 2em;
+}
+
+.choices-list li.even {
+  flex-direction: row;
+}
+
+.choices-list li.odd {
+  flex-direction: row-reverse;
+}
+
+
+
+.choices-list p {
+  margin-bottom: 10px;
+}
+
+.choices-list img {
+  width: 15em;
+  height: 15em;
+  height: auto;
+  border: 2px solid #ddd;
+  border-radius: 8px;  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
