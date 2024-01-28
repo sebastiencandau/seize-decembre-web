@@ -21,7 +21,7 @@ const NarativeScreen: React.FC<NarativeScreenProps> = ({ startConversation, curr
         }
         return newIndex;
       });
-    }, 100);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [currentIndications, startConversation]);
