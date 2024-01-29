@@ -356,7 +356,7 @@ export const followingMessage = async (message: string, playerName: string) => {
         case "je peux ramener de quoi rouler":
         case "je peux prendre des chips et de la bouffe":
             choices = JSON.parse(await localStorage.getItem('choices')!);
-            if(choices[0] === "anniversaire" && choices[1] === "honnete"){
+            if(choices[1] === "honnete"){
                 return {
                     messages: [
                         {
@@ -604,7 +604,7 @@ export const followingMessage = async (message: string, playerName: string) => {
                 }
                 case "je m'emmène moi c'est déjà ça":
             choices = JSON.parse(await localStorage.getItem('choices')!);
-            if(choices[0] === "anniversaire" && choices[1] === "honnete"){
+            if(choices[1] === "honnete"){
                 return {
                     messages: [
                         {

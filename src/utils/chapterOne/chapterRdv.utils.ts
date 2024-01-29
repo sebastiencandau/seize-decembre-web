@@ -270,19 +270,19 @@ export const followingMessage = async (message: string, playerName: string) => {
               received: true
             },
             {
-              msg: "il est parti sans dire un mot",
+              msg: "il m'a dit de te passer le bonjour",
               type: null,
               received: true
             },
             {
-              msg: "tu sais ce qu'il lui arrive ?",
+              msg: "vous avez l'air vraiment très proche",
               type: null,
               received: true
             }
           ],
           choices: [
-            "je pense que je l'ai déçu",
-            "aucune idée"
+            "c'est mon meilleur ami",
+            "on est pas si amis que ça"
           ]
         };
       } else {
