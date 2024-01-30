@@ -29,22 +29,6 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
     setChoices(messagesF?.choices);
   };
 
-   const stopMusic = () => {
-    const audio = document.getElementById('bg-conversation-music') as HTMLAudioElement | null;
-      if (audio) {
-        audio.volume = 1;
-          const fadeOutInterval = setInterval(() => {
-          if (audio.volume > 0.1) {
-            audio.volume -= 0.1;
-          } else {
-            clearInterval(fadeOutInterval);
-            audio.pause();
-          }
-        }, 300);
-        return () => clearInterval(fadeOutInterval);
-      }
-   }
-
   const fetchIndications = async () => {}
 
   useEffect(() => {
@@ -62,7 +46,6 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
         if (messages[messages.length - 1].type !== 'music') {
           if (messages[messages.length - 1].type !== null) {
             localStorage.setItem('chapter', JSON.stringify(getFutureChapter(chapter)));
-            stopMusic();
             setTimeout(() => {
               stopChapter();
             }, 4000);
@@ -198,10 +181,10 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
       conversation.name && (
         <>
           {
-            conversation.music && <audio id='bg-conversation-music' autoPlay src={require(`../../assets/musics/${conversation.music}.mp3`)} />
+            conversation.music && <audio autoPlay src={require(`../../assets/musics/${conversation.music}.mp3`)} id="audio" />
           }
           {
-            musicMessage && <audio id='bg-conversation-music' autoPlay src={require(`../../assets/musics/${musicMessage}.mp3`)} />
+            musicMessage && <audio autoPlay src={require(`../../assets/musics/${musicMessage}.mp3`)} id="audio" />
           }
           <div className="profile-section">
             <span
@@ -269,11 +252,7 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
           <div className='modal-choices-section' style={{display: 'block', textAlign: 'center'}}>
             <p>La partie en cours ne sera pas sauvegardée</p>
             <div>
-            <button onClick={() => {stopMusic();
-            setTimeout(() => {
-              stopChapter()
-            }, 4000);
-               }}>Quitter la partie</button>
+            <button onClick={() => stopChapter()}>Quitter la partie</button>
             </div>
             <button onClick={() => setExitPartie(false)}>Annuler</button>
           </div>
