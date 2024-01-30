@@ -76,7 +76,7 @@ const MenuChapterOne = ({gameState, chapter, startGame, restartGame }: any) => {
               {
                 (chapter < 6 || chapter === 999) &&
                 <button onClick={handlePress}>{chapter === 1 || chapter === undefined ? 'Commencer' : 'Continuer'}</button>
-                || <button onClick={handlePress}>{`> CHAPITRE 2 <`}</button>
+                || <button>{`> CHAPITRE 2: bientôt disponible <`}</button>
               }
 
               <button onClick={handlePressRestart}>Recommencer le chapitre</button>
