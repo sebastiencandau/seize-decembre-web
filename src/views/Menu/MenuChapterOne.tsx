@@ -10,7 +10,6 @@ const MenuChapterOne = ({gameState, chapter, startGame, restartGame }: any) => {
   const [gameStarted, setGameStarted] = useState(gameState)
 
   const handlePress = () => {
-    console.log('test');
     if (localStorage.getItem('playerName')) {
       startGame();
     } else {

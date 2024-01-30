@@ -38,6 +38,35 @@ const App: React.FC = () => {
     startGame();
   };
 
+
+  // baisse progressive du volume de la musique lors du lancement du chapitre
+  useEffect(() => {
+    const audio = document.getElementById('audio') as HTMLAudioElement | null;
+
+    if(chapterStarted === true){
+      if (audio) {
+        // Initial volume set to 1 (full volume)
+        audio.volume = 1;
+  
+        // Fade out the audio during component unmount or when chapter changes
+        const fadeOutInterval = setInterval(() => {
+          if (audio.volume > 0.1) {
+            audio.volume -= 0.1;
+          } else {
+            clearInterval(fadeOutInterval);
+            audio.pause(); // Pause the audio once faded out
+          }
+        }, 500);
+  
+        // Clear the interval when the component unmounts or when chapter changes
+        return () => clearInterval(fadeOutInterval);
+      }
+    } else {
+      audio!.volume = 1;
+    }
+  
+  }, [chapterStarted]);
+
   // Render based on conditions
   return (
     <div>
@@ -54,7 +83,12 @@ const App: React.FC = () => {
           <MenuChapterOne gameState={gameStarted} chapter={chapter} startGame={startGame} />
         </div>
       ) : (
+        <div>
+          { (chapter <6 || chapter === 999) ? <audio autoPlay src={require('./assets/musics/max_and_chloe.mp3')} id="audio" loop /> :
+          <audio autoPlay src={require('./assets/musics/chapter_one_ending_music.mp3')} id="audio" loop />
+          }
         <Conversation setGameState={setGameStarted} chapter={chapter} stopChapter={stopChapter} playerName={localStorage.getItem('playerName')!} />
+        </div>
       )}
     </div>
   );
