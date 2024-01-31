@@ -3,6 +3,7 @@ import { followingMessage, getFutureChapter, narativeIndicationsForChapter, star
 import { IConversation, IMessage } from '../../interfaces/messages.interface';
 import * as AllImages from '../../assets';
 import './Conversation.css'
+import { updateChapterInFirestore, updateChoicesInFirestore } from '../../services/firebase.services';
 
 interface props {
   setGameState: Dispatch<SetStateAction<boolean>>,
@@ -45,8 +46,9 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
       if (messages[messages.length - 1].type !== 'indication') {
         if (messages[messages.length - 1].type !== 'music') {
           if (messages[messages.length - 1].type !== null) {
-            localStorage.setItem('chapter', JSON.stringify(getFutureChapter(chapter)));
             setTimeout(() => {
+              updateChoicesInFirestore(JSON.parse(localStorage.getItem('choices')!));
+              updateChapterInFirestore(getFutureChapter(chapter));
               stopChapter();
             }, 4000);
           }

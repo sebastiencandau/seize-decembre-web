@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { choicesDescription } from '../../utils/chapters.utils';
 import './MenuChapterOne.css'; // Importer le fichier CSS
+import SignInComponent from '../../auth/SignInComponent';
+import { getPlayerNameInFirebase, updateChoicesInFirestore, updatePlayerNameInFirestore } from '../../services/firebase.services';
 
 const MenuChapterOne = ({gameState, chapter, startGame, restartGame }: any) => {
   const [playerName, setPlayerName] = useState('');
@@ -9,9 +11,12 @@ const MenuChapterOne = ({gameState, chapter, startGame, restartGame }: any) => {
   const [choicesList, setChoicesList] = useState<any>([]);
   const [gameStarted, setGameStarted] = useState(gameState)
 
-  const handlePress = () => {
+  const handlePress = async () => {
     console.log('test');
-    if (localStorage.getItem('playerName')) {
+    const name = await getPlayerNameInFirebase();
+    console.log('nom récupéré', name);
+    if (name) {
+      console.log('START GAME')
       startGame();
     } else {
       setModalVisible(true);
@@ -19,8 +24,8 @@ const MenuChapterOne = ({gameState, chapter, startGame, restartGame }: any) => {
   };
 
   const handleStartGame = () => {
-    localStorage.setItem('choices', JSON.stringify([]));
-    localStorage.setItem('playerName', playerName);
+    updateChoicesInFirestore([]);
+    updatePlayerNameInFirestore(playerName);
     setModalVisible(false);
     handlePress();
   };
@@ -53,29 +58,13 @@ const MenuChapterOne = ({gameState, chapter, startGame, restartGame }: any) => {
 
     <div className="menu-container">
       {
-        !gameStarted && (
-          <div style={{color: 'black', fontWeight: 'bold' ,maxWidth: '50%', marginRight: 'auto', marginLeft: 'auto'}}>
-            <h1>Seize décembre</h1>
-            <p>{`Ce jeu narratif vous offre une immersion totale. Chaque choix que vous faites influence le cours de l'histoire, 
-            façonnant ainsi votre propre voyage. Mais attention, chaque décision a des conséquences, alors 
-            choisissez avec précaution !`}</p>
-            <p>{`Pour vivre pleinement cette expérience immersive, nous vous recommandons de jouer sur un ordinateur 💻. 
-            Installez-vous confortablement, éliminez toute distraction et laissez-vous emporter par l'histoire captivante qui 
-            vous attend. Activez le son 🎧 pour profiter pleinement de l'ambiance sonore envoûtante et plongez-vous dans l'univers 
-            du jeu.`}</p>
-            <p>{`Préparez-vous à vivre des émotions intenses, à être surpris et à prendre des décisions difficiles. L'aventure 
-            commence dès que vous appuyez sur "Jouer". Êtes-vous prêt à découvrir ce que le destin
-             vous réserve ?`}</p>
-            <button onClick={() => setGameStarted(true)}>Jouer</button>
-          </div>
-        ) ||
         !choicesModalVisible && (
           <>
             <h1>Seize décembre</h1>
             <h2>Chapitre 1: Lucie</h2>
             <div className="button-container">
               {
-                (chapter < 6 || chapter === 999) &&
+                (chapter < 6 || chapter === 999 || chapter === undefined) &&
                 <button onClick={handlePress}>{chapter === 1 || chapter === undefined ? 'Commencer' : 'Continuer'}</button>
                 || <button onClick={handlePress}>{`> CHAPITRE 2 <`}</button>
               }
