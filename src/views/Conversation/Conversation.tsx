@@ -178,15 +178,12 @@ const Conversation = ({ setGameState, chapter, playerName, stopChapter }: props)
             textAlign: 'center',
             alignItems: 'center',
             marginBottom: '15px',
-            borderBottom: 'solid black 2px',
             marginLeft: '5em',
             marginRight: '5em'
           }}>
-            <div style={{ flex: '1', height: '1px' }} />
             <div>
               <span style={{ width: '200px', textAlign: 'center', color: 'black' }}>{item.msg}</span>
             </div>
-            <div style={{ flex: '1', height: '1px' }} />
           </div>
         )}
     </>
@@ -253,10 +250,10 @@ const Conversation = ({ setGameState, chapter, playerName, stopChapter }: props)
               ))}
             </div>
             <div className="input-section">
-              <div className="input-container" onClick={() => {
+              <div className="input-container">
+                <input  onClick={() => {
                 setModalChoicesVisible(true);
-              }}>
-                <input disabled={playerCanWrite ? false : true} type="text" placeholder={playerCanWrite ? "Faites un choix..." : ''} />
+              }} readOnly={true} type="text" placeholder={playerCanWrite ? "Faites un choix..." : ''} />
                 <button>Envoyer</button>
               </div>
             </div>
