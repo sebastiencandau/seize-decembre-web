@@ -14,7 +14,7 @@ export const startingConversation: IConversation =
   name: 'Le lac',
   profilePicture: 'Lac', messages: [
   ],
-background: '',
+background: 'https://img.freepik.com/photos-premium/magnifique-coucher-soleil-lac-roseaux-au-premier-plan-soleil-couchant-rayons_210632-640.jpg',
   choices: [
     "(arriver en retard)",
     "(arriver à l'heure)",
