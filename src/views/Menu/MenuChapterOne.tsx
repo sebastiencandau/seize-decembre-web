@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { choicesDescription } from '../../utils/chapters.utils';
 import './MenuChapterOne.css'; // Importer le fichier CSS
+import SignInComponent from '../../auth/SignInComponent';
+import { getPlayerNameInFirebase, updateChapterInFirestore, updateChoicesInFirestore, updatePlayerNameInFirestore } from '../../services/firebase.services';
+import { signOut } from '../../auth/authService';
 
-const MenuChapterOne = ({gameState, chapter, startGame, restartGame }: any) => {
+const MenuChapterOne = ({ handleLogout, loading, gameState, chapter, startGame, restartGame }: any) => {
   const [playerName, setPlayerName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [choicesModalVisible, setChoicesModalVisible] = useState(false);
   const [choicesList, setChoicesList] = useState<any>([]);
   const [gameStarted, setGameStarted] = useState(gameState)
 
-  const handlePress = () => {
-    if (localStorage.getItem('playerName')) {
+  const handlePress = async () => {
+    const name = await getPlayerNameInFirebase();
+    if (name) {
       startGame();
     } else {
       setModalVisible(true);
@@ -18,8 +22,8 @@ const MenuChapterOne = ({gameState, chapter, startGame, restartGame }: any) => {
   };
 
   const handleStartGame = () => {
-    localStorage.setItem('choices', JSON.stringify([]));
-    localStorage.setItem('playerName', playerName);
+    updateChoicesInFirestore([]);
+    updatePlayerNameInFirestore(playerName);
     setModalVisible(false);
     handlePress();
   };
@@ -27,6 +31,10 @@ const MenuChapterOne = ({gameState, chapter, startGame, restartGame }: any) => {
 
   const handlePressRestart = async () => {
     await localStorage.clear();
+    localStorage.clear();
+    updateChapterInFirestore(1);
+    updateChoicesInFirestore([]);
+    updatePlayerNameInFirestore(null);
     handlePress();
   };
 
@@ -49,78 +57,66 @@ const MenuChapterOne = ({gameState, chapter, startGame, restartGame }: any) => {
   },);
 
   return (
-
     <div className="menu-container">
-      {
-        !gameStarted && (
-          <div style={{color: 'black', fontWeight: 'bold' ,maxWidth: '50%', marginRight: 'auto', marginLeft: 'auto'}}>
-            <h1>Seize décembre</h1>
-            <p>{`Ce jeu narratif vous offre une immersion totale. Chaque choix que vous faites influence le cours de l'histoire, 
-            façonnant ainsi votre propre voyage. Mais attention, chaque décision a des conséquences, alors 
-            choisissez avec précaution !`}</p>
-            <p>{`Pour vivre pleinement cette expérience immersive, nous vous recommandons de jouer sur un ordinateur 💻. 
-            Installez-vous confortablement, éliminez toute distraction et laissez-vous emporter par l'histoire captivante qui 
-            vous attend. Activez le son 🎧 pour profiter pleinement de l'ambiance sonore envoûtante et plongez-vous dans l'univers 
-            du jeu.`}</p>
-            <p>{`Préparez-vous à vivre des émotions intenses, à être surpris et à prendre des décisions difficiles. L'aventure 
-            commence dès que vous appuyez sur "Jouer". Êtes-vous prêt à découvrir ce que le destin
-             vous réserve ?`}</p>
-            <button onClick={() => setGameStarted(true)}>Jouer</button>
+      {loading ? (
+        // Afficher uniquement si loading est vrai
+        <div>Loading...</div>
+      ) : (
+        // Afficher le contenu lorsque loading est faux
+        <>
+          <div className="logout-icon" style={{ color: 'black', }} onClick={() => handleLogout()}>
+            <p>⟨ se déconnecter</p>
           </div>
-        ) ||
-        !choicesModalVisible && (
-          <>
-            <h1>Seize décembre</h1>
-            <h2>Chapitre 1: Lucie</h2>
-            <div className="button-container">
-              {
-                (chapter < 6 || chapter === 999) &&
-                <button onClick={handlePress}>{chapter === 1 || chapter === undefined ? 'Commencer' : 'Continuer'}</button>
-                || <button>{`> CHAPITRE 2: bientôt disponible <`}</button>
-              }
-
-              <button onClick={handlePressRestart}>Recommencer le chapitre</button>
-              {chapter === 6 &&
-                <button onClick={handlePressChoices}>Mes choix</button>
-              }
-            </div>
-
-            {modalVisible && (
-              <div className="modal-container">
-                <div className="modal">
-                  <div className="modal-content">
-                    <div className='modal-content-title'>
-                      <h1>Entrez votre nom:</h1>
-                      <input type="text" value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
+          {!choicesModalVisible && (
+            <>
+              <h1>Seize décembre</h1>
+              <h2>Chapitre 1: Lucie</h2>
+              <div className="button-container">
+                {chapter < 6 || chapter === 999 || !chapter ? (
+                  <button onClick={handlePress}>{chapter === 1 || !chapter ? 'Commencer' : 'Continuer'}</button>
+                ) : (
+                  <button>{`> CHAPITRE 2: bientôt disponible <`}</button>
+                )}
+                <button onClick={handlePressRestart}>Recommencer le chapitre</button>
+                {chapter === 6 && (
+                  <button onClick={handlePressChoices}>Mes choix</button>
+                )}
+              </div>
+              {modalVisible && (
+                <div className="modal-container">
+                  <div className="modal">
+                    <div className="modal-content">
+                      <div className='modal-content-title'>
+                        <h1>Entrez votre nom:</h1>
+                        <input type="text" value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
+                      </div>
+                      <button onClick={handleStartGame}>Commencer</button>
                     </div>
-                    <button onClick={handleStartGame}>Commencer</button>
                   </div>
                 </div>
+              )}
+            </>
+          )}
+
+          {/* Modale pour les choix */}
+          {choicesModalVisible && (
+            <div className='choices-container'>
+              <h2>Mes choix</h2>
+              <div className="choices-list-container">
+                <ul className="choices-list">
+                  {choicesList.map((choice: any, index: number) => (
+                    <li key={index} className={index % 2 === 0 ? 'even' : 'odd'}>
+                      <p>{choice.desc}</p>
+                      <img src={choice.img} alt={`Choice ${index + 1}`} />
+                    </li>
+                  ))}
+                </ul>
               </div>
-            )}
-          </>
-        )
-      }
-
-
-      {/* Modale pour les choix */}
-      {choicesModalVisible && (
-        <div className='choices-container'>
-          <h2>Mes choix</h2>
-          <div className="choices-list-container">
-            <ul className="choices-list">
-              {choicesList.map((choice: any, index: number) => (
-                <li key={index} className={index % 2 === 0 ? 'even' : 'odd'}>
-                  <p>{choice.desc}</p>
-                  <img src={choice.img} alt={`Choice ${index + 1}`} />
-                </li>
-              ))}
-            </ul>
-          </div>
-          <button onClick={() => setChoicesModalVisible(false)}>Fermer</button>
-        </div>
+              <button onClick={() => setChoicesModalVisible(false)}>Fermer</button>
+            </div>
+          )}
+        </>
       )}
-
     </div>
   );
 };

@@ -18,6 +18,16 @@ body {
   }
 }
 
+.logout-icon{
+  position: absolute;
+  left: 1em;
+  top: 1em;
+  text-align: left;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .menu-container {
   text-align: center;
 }

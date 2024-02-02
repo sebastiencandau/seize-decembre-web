@@ -69,7 +69,7 @@ body{
     padding-top: 1em;
     padding-right: 1em;
     padding-left: 1em;
-    height: 78vh;
+    height: calc(95% - 10em);
     overflow-y: auto; /* Ajoutez un défilement vertical */
     scroll-behavior: smooth; /* Comportement de défilement lisse */
     display: flex;
