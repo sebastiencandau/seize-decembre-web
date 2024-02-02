@@ -175,7 +175,7 @@ const handleLogout = () => {
                 </>
               ) : !chapterStarted && (!chapter || (chapter >= 1 && chapter <= 6) || chapter === 999) ? (
                   <>
-                    {(!chapter || (chapter >= 1 && chapter <= 6) || chapter === 999) ? <audio autoPlay src={require('./assets/musics/max_and_chloe.mp3')} id="audio" loop /> :
+                    {(!chapter || (chapter >= 1 && chapter < 6) || chapter === 999) ? <audio autoPlay src={require('./assets/musics/max_and_chloe.mp3')} id="audio" loop /> :
                       <audio autoPlay src={require('./assets/musics/chapter_one_ending_music.mp3')} id="audio" loop />
                     }
                     {loading && (
