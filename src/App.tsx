@@ -25,6 +25,7 @@ const App: React.FC = () => {
   const startGame = async () => {
     setLoading(true);
     const fetchedChapter = await getChapterInFirebase();
+    console.log(fetchedChapter);
     if (!fetchedChapter) {
       startGameToZero();
     } else {
@@ -59,9 +60,9 @@ const App: React.FC = () => {
   };
 
   const startGameToZero = async () => {
-    fetchUserData();
     setLoading(true);
     setChapter(1);
+    updateChapterInFirestore(1);
     startGame();
     setLoading(false);
   };
