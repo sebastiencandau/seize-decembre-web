@@ -210,7 +210,7 @@ const Conversation = ({ setGameState, chapter, playerName, stopChapter }: props)
                 &#8249;
               </span>
               <div className="profile-picture">
-                <img src={conversation.profilePicture} alt="Profile" />
+                <img src={require(`../../assets/${conversation.profilePicture}.png`)} alt="Profile" />
               </div>
               <span className="profile-name">{conversation.name}</span>
             </div>

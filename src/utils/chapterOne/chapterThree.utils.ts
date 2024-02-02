@@ -12,7 +12,7 @@ export const startingConversation: IConversation =
 {
     id: 2,
     name: 'Matéo',
-    profilePicture: 'https://cdn-s-www.lejsl.com/images/8BD25DE2-9611-4632-9408-CAE9EBF115A8/NW_raw/jules-fonseca-de-pouilloux-photo-dr-fournie-par-jules-1625408911.jpg',
+    profilePicture: 'Matéo',
     messages: [
         { type: null, received: true, msg: `mec faut que je te parle d'un truc` },
     ],

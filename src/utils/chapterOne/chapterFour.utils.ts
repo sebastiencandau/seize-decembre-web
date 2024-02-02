@@ -12,7 +12,7 @@ export const startingConversation: IConversation =
 {
     id: 3,
     name: 'Anniversaire de Lucie ❤️',
-    profilePicture: 'https://static.wixstatic.com/media/29b61d_dd7fda3cf67048199aee9347e6c8e268~mv2.webp',
+    profilePicture: 'Anniversaire',
     messages: [
         { type: 'indication', received: true, msg: `Sarah vous a ajouté au groupe` },
         { type: null, received: true, prenom: "Sarah", msg: `Je crois qu'il y a tout le monde` },

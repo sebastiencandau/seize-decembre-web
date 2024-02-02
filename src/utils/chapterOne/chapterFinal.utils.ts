@@ -12,7 +12,7 @@ export const startingConversation: IConversation =
 {
     id: 5,
     name: 'Frédéric',
-    profilePicture: 'https://images.midilibre.fr/api/v1/images/view/62ae939ea6b323191f59968d/large/image.jpg?v=1',
+    profilePicture: 'Frédéric',
     messages: [
         { type: 'indication', received: true, msg: `Frédéric veut vous envoyer un message` },
     ],
