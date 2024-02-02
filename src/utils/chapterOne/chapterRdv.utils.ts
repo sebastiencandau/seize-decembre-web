@@ -723,7 +723,7 @@ export const followingMessage = async (message: string, playerName: string) => {
             received: true
           },
           {
-            msg: "la bise, douce, fait bouger ses longs cheveux",
+            msg: "la brise, douce, fait bouger ses longs cheveux",
             type: 'indication',
             received: true
           },

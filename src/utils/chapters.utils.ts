@@ -22,7 +22,6 @@ export const narativeIndicationsForChapter = (chapterNumber: number) => {
     } else if(chapterNumber === 5){
         return chapterFinal.narativeIndications;
     } else if(chapterNumber === 8){
-        console.log('ici');
         return chapterHeight.narativeIndications;
     }
 }
@@ -41,8 +40,6 @@ export const followingMessage = async (chapterNumber: number, message: string, p
     } else if (chapterNumber === 999){
         return chapterRdv.followingMessage(message, playerName);
     } else if(chapterNumber === 8){
-        console.log('here')
-        console.log(chapterHeight.followingMessage(message, playerName))
         return chapterHeight.followingMessage(message, playerName);
     }
 }

@@ -12,7 +12,7 @@ interface props {
   stopChapter(): void
 }
 
-const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) => {
+const Conversation = ({ setGameState, chapter, playerName, stopChapter }: props) => {
   const [conversation, setConversation] = useState<IConversation>(startingConversation(chapter));
   const [followMessage, setFollowMessages] = useState<IMessage[]>();
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -30,15 +30,31 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
     setChoices(messagesF?.choices);
   };
 
-  const fetchIndications = async () => {}
+  const stopMusic = () => {
+    const audio = document.getElementById('bg-conversation-music') as HTMLAudioElement | null;
+    if (audio) {
+      audio.volume = 1;
+      const fadeOutInterval = setInterval(() => {
+        if (audio.volume > 0.1) {
+          audio.volume -= 0.1;
+        } else {
+          clearInterval(fadeOutInterval);
+          audio.pause();
+        }
+      }, 300);
+      return () => clearInterval(fadeOutInterval);
+    }
+  }
+
+  const fetchIndications = async () => { }
 
   useEffect(() => {
-      if (messages.length === 0) {
-        setFollowMessages(conversation.messages);
-        setChoices(conversation.choices);
-      } else {
-        fetchfollowingMessage();
-      }
+    if (messages.length === 0) {
+      setFollowMessages(conversation.messages);
+      setChoices(conversation.choices);
+    } else {
+      fetchfollowingMessage();
+    }
   }, []);
 
   useEffect(() => {
@@ -46,6 +62,7 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
       if (messages[messages.length - 1].type !== 'indication') {
         if (messages[messages.length - 1].type !== 'music') {
           if (messages[messages.length - 1].type !== null) {
+            stopMusic();
             setTimeout(() => {
               updateChoicesInFirestore(JSON.parse(localStorage.getItem('choices')!));
               updateChapterInFirestore(getFutureChapter(chapter));
@@ -72,7 +89,7 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
       setPlayerCanWrite(false);
       if (followMessage[0].type === null) {
         if (followMessage[0].type !== 'indication') {
-          if(followMessage[0].received === true){
+          if (followMessage[0].received === true) {
             setTimeout(() => {
               setIsWriting(true);
             }, 1000);
@@ -83,7 +100,7 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
         let futuresMessages = [...messages];
         futuresMessages.push(followMessage[0]);
         const updatedFutureMessages = followMessage.filter((msg) => msg !== followMessage[0]);
-        if(followMessage[0] && followMessage[0].link){
+        if (followMessage[0] && followMessage[0].link) {
           setMusicMessage(followMessage[0].link);
         }
         setIsWriting(false);
@@ -96,43 +113,43 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
 
   const renderMessage = (item: IMessage) => (
     <>
-      { 
-      (item.type === null || item.type === 'music') && (
-        <div style={{
-          flexDirection: 'column',
-          display: 'flex',
-          alignItems: item.received ? 'flex-start' : 'flex-end',
-        }}>
-          {item.received && item.prenom &&
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img src={require(`../../assets/${item.prenom}.jpg`)} className="profilePicture" alt="Profile" />
-              <span style={{ marginLeft: '8px', color: 'black' }}>{item.prenom}</span>
-            </div>
-          }
-          <div
-            style={{
-              backgroundColor: item.received ? '#e0e0e0' : '#80cbc4',
-              borderRadius: '50px',
-              maxWidth: '50%',
-              padding: '12px 20px',
-              margin: '4px',
-            }}
-          >
-            { item.received && item === messages[messages.length -1] &&
-              <audio autoPlay={item.received} src={require('../../assets/musics/receive_message.mp3')} id="audio" />
+      {
+        (item.type === null || item.type === 'music') && (
+          <div style={{
+            flexDirection: 'column',
+            display: 'flex',
+            alignItems: item.received ? 'flex-start' : 'flex-end',
+          }}>
+            {item.received && item.prenom &&
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img src={require(`../../assets/${item.prenom}.jpg`)} className="profilePicture" alt="Profile" />
+                <span style={{ marginLeft: '8px', color: 'black' }}>{item.prenom}</span>
+              </div>
             }
-            <span
+            <div
               style={{
-                color: item.received ? 'black' : 'white',
-                fontSize: '18px',
-                fontStyle: 'normal',
+                backgroundColor: item.received ? '#e0e0e0' : '#80cbc4',
+                borderRadius: '50px',
+                maxWidth: '50%',
+                padding: '12px 20px',
+                margin: '4px',
               }}
             >
-              {item.msg}
-            </span>
+              {item.received && item === messages[messages.length - 1] &&
+                <audio autoPlay={item.received} src={require('../../assets/musics/receive_message.mp3')} id="audio" />
+              }
+              <span
+                style={{
+                  color: item.received ? 'black' : 'white',
+                  fontSize: '18px',
+                  fontStyle: 'normal',
+                }}
+              >
+                {item.msg}
+              </span>
+            </div>
           </div>
-        </div>
-      ) || item.type === 'link' &&
+        ) || item.type === 'link' &&
         (
           <div style={{ flexDirection: item.received ? 'row' : 'row-reverse' }}>
             <div
@@ -163,15 +180,12 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
             textAlign: 'center',
             alignItems: 'center',
             marginBottom: '15px',
-            borderBottom: 'solid black 2px',
             marginLeft: '5em',
             marginRight: '5em'
           }}>
-            <div style={{ flex: '1', height: '1px' }} />
             <div>
               <span style={{ width: '200px', textAlign: 'center', color: 'black' }}>{item.msg}</span>
             </div>
-            <div style={{ flex: '1', height: '1px' }} />
           </div>
         )}
     </>
@@ -179,82 +193,81 @@ const Conversation = ({setGameState, chapter, playerName, stopChapter }: props) 
 
   return (
     <div className="conversation-container">
-    {
-      conversation.name && (
-        <>
-          {
-            conversation.music && <audio autoPlay src={require(`../../assets/musics/${conversation.music}.mp3`)} id="audio" />
-          }
-          {
-            musicMessage && <audio autoPlay src={require(`../../assets/musics/${musicMessage}.mp3`)} id="audio" />
-          }
-          <div className="profile-section">
-            <span
-              style={{ fontSize: '36px', color: 'black', marginRight: '10px', cursor: 'pointer' }}
-              onClick={() => setExitPartie(true)}
-            >
-              &#8249;
-            </span>
-            <div className="profile-picture">
-              <img src={conversation.profilePicture} alt="Profile" />
-            </div>
-            <span className="profile-name">{conversation.name}</span>
-          </div>
-          <div className='message-section'>
-          <div className="background-container" style={{ backgroundImage: conversation.background ? `url(${conversation.background})` : 'none' }}></div>
-          {
-            isWriting && (
-              <div
-              style={{
-                backgroundColor: '#e0e0e0',
-                borderRadius: '50px',
-                maxWidth: '1.5em',
-                maxHeight: '1em',
-                minHeight: '1em',
-                minWidth: '1.5em',
-                textAlign: 'center',
-                padding: '12px 20px',
-                margin: '4px',
-              }}
-            >
-              <audio autoPlay src={require('../../assets/musics/typing.mp3')} id="audio" />
-              <span className='is-writing-span'
-                style={{
-                  color: 'black',
-                  fontSize: '18px',
-                  fontStyle: 'normal',
-                  animation: 'sizeChange 4s',  // Utilisez l'animation définie dans le fichier CSS
-                }}
-              >
-                ...
-              </span>
-            </div>
-            ) 
+      {
+        conversation.name && (
+          <>
+            {
+              conversation.music && <audio id='bg-conversation-music' autoPlay src={require(`../../assets/musics/${conversation.music}.mp3`)} />
             }
-            {messages.slice().reverse().map((message, index) => (
-              <div key={index} className="message-container">
-                {renderMessage(message)}
+            {
+              musicMessage && <audio id='bg-conversation-music' autoPlay src={require(`../../assets/musics/${musicMessage}.mp3`)} />
+            }
+            <div className="profile-section">
+              <span
+                style={{ fontSize: '36px', color: 'black', marginRight: '10px', cursor: 'pointer' }}
+                onClick={() => setExitPartie(true)}
+              >
+                &#8249;
+              </span>
+              <div className="profile-picture">
+                <img src={conversation.profilePicture} alt="Profile" />
               </div>
-            ))}
-          </div>
-          <div className="input-section">
-            <div className="input-container" onClick={() => {
-              setModalChoicesVisible(true);
-            }}>
-              <input disabled={playerCanWrite ? false : true} type="text" placeholder={playerCanWrite ? "Faites un choix..." : ''} />
-              <button>Envoyer</button>  
+              <span className="profile-name">{conversation.name}</span>
             </div>
-          </div>
+            <div className='message-section'>
+              <div className="background-container" style={{ backgroundImage: conversation.background ? `url(${conversation.background})` : 'none' }}></div>
+              {
+                isWriting && (
+                  <div
+                    style={{
+                      backgroundColor: '#e0e0e0',
+                      borderRadius: '50px',
+                      maxWidth: '1.5em',
+                      maxHeight: '1em',
+                      minHeight: '1em',
+                      minWidth: '1.5em',
+                      textAlign: 'center',
+                      padding: '12px 20px',
+                      margin: '4px',
+                    }}
+                  >
+                    <audio autoPlay src={require('../../assets/musics/typing.mp3')} id="audio" />
+                    <span className='is-writing-span'
+                      style={{
+                        color: 'black',
+                        fontSize: '18px',
+                        fontStyle: 'normal',
+                        animation: 'sizeChange 4s',  // Utilisez l'animation définie dans le fichier CSS
+                      }}
+                    >
+                      ...
+                    </span>
+                  </div>
+                )
+              }
+              {messages.slice().reverse().map((message, index) => (
+                <div key={index} className="message-container">
+                  {renderMessage(message)}
+                </div>
+              ))}
+            </div>
+            <div className="input-section">
+              <div className="input-container">
+                <input  onClick={() => { playerCanWrite && setModalChoicesVisible(true);}} 
+                readOnly={true} type="text" placeholder={playerCanWrite ? "Faites un choix..." : ''} />
+                <button>Envoyer</button>
+              </div>
+            </div>
 
-        </>
-      )}
+          </>
+        )}
 
-  {exitPartie === true && (
+      {exitPartie === true && (
         <div className='modal-choices-container'>
-          <div className='modal-choices-section' style={{display: 'block', textAlign: 'center'}}>
+          <div className='modal-choices-section' style={{ display: 'block', textAlign: 'center' }}>
             <p>La partie en cours ne sera pas sauvegardée</p>
             <div>
-            <button onClick={() => stopChapter()}>Quitter la partie</button>
+              <button onClick={stopChapter}>Quitter la partie</button>
             </div>
             <button onClick={() => setExitPartie(false)}>Annuler</button>
           </div>

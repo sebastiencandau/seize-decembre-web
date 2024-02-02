@@ -10,17 +10,26 @@ const signInWithGoogle = async () => {
     try {
         const result = await auth.signInWithPopup(googleProvider);
 
-        const userData: UserData = {
-            playerName: null,
-            chapter: null,
-            choices: null,
-        };
+        const userId = result.user?.uid;
 
-        await db.collection('users').doc(result.user?.uid).set(userData);
+        // Vérifiez si l'utilisateur existe déjà dans Firestore
+        const userDoc = await db.collection('users').doc(userId).get();
+
+        if (!userDoc.exists) {
+            // Si l'utilisateur n'existe pas, créez-le avec des valeurs par défaut
+            const userData: UserData = {
+                playerName: null,
+                chapter: null,
+                choices: null,
+            };
+
+            await db.collection('users').doc(userId).set(userData);
+        }
     } catch (error: any) {
         console.error(error.message);
     }
 };
+
 
 const signOut = async () => {
     try {

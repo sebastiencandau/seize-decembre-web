@@ -11,15 +11,13 @@ export const updateChapterInFirestore = async (chapterData: number) => {
             await userDocRef.update({
                 chapter: chapterData
             });
-
-            console.log('Chapitre mis à jour avec succès dans Firestore.');
         } catch (error) {
             console.error('Erreur lors de la mise à jour du chapitre dans Firestore :', error);
         }
     }
 };
 
-export const updatePlayerNameInFirestore = async (playerName: string) => {
+export const updatePlayerNameInFirestore = async (playerName: string | null) => {
     const user = firebase.auth().currentUser;
   
     if (user) {
@@ -30,9 +28,7 @@ export const updatePlayerNameInFirestore = async (playerName: string) => {
             await userDocRef.update({
                 playerName
             });
-  
-            console.log('Chapitre mis à jour avec succès dans Firestore.');
-        } catch (error) {
+          } catch (error) {
             console.error('Erreur lors de la mise à jour du chapitre dans Firestore :', error);
         }
     }
@@ -49,8 +45,6 @@ export const updateChoicesInFirestore = async (choices: string[]) => {
             await userDocRef.update({
                 choices
             });
-  
-            console.log('Chapitre mis à jour avec succès dans Firestore.');
         } catch (error) {
             console.error('Erreur lors de la mise à jour du chapitre dans Firestore :', error);
         }

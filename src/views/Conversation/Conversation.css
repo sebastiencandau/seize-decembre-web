@@ -34,7 +34,6 @@ body{
   display: flex;
   height: 5.3em;
   background-color: #f4f4f4;
-  margin-bottom: 10px;
   align-items: center; /* Ajout de cette ligne pour aligner les éléments horizontalement */
 }
 
@@ -67,9 +66,10 @@ body{
   }
 
   .message-section{
+    padding-top: 1em;
     padding-right: 1em;
     padding-left: 1em;
-    height: 75vh;
+    height: calc(95% - 10em);
     overflow-y: auto; /* Ajoutez un défilement vertical */
     scroll-behavior: smooth; /* Comportement de défilement lisse */
     display: flex;
@@ -78,7 +78,6 @@ body{
   
   /* Conteneur des messages */
   .message-container {
-    margin-bottom: 12px;
   }
   
   /* Styles pour chaque message */
@@ -111,7 +110,10 @@ body{
   }
 
   .input-container{
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
+    margin-top: 1em;
     max-width: 95%;
   }
 
@@ -132,8 +134,9 @@ body{
     margin-top: 20em;
     color: black;
     border-radius: 10px;
-    margin-left: 40%;
-    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 15em;
     background-color: #e4e6eb;
     padding: 1em;
   }
@@ -144,9 +147,8 @@ body{
   
   /* Section de saisie */
   .input-section {
-    background-color: #fff;
-    max-height: 2em;
-    padding: 16px;
+    background-color: #f4f4f4;
+    height: 5em;
     border-radius: 0 0 8px 8px;
     border-top: 2px solid #fff;
     bottom: 0;
