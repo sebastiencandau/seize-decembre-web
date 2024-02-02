@@ -12,9 +12,9 @@ export const startingConversation: IConversation =
 {
   id: 2,
   name: 'Le lac',
-  profilePicture: 'https://img.fotocommunity.com/soleil-couchant-sur-le-lac-de-poucharramet-muret-france-panorama-333a7b0f-7fa3-4269-a08c-1615dc2e8e78.jpg?height=1080', messages: [
+  profilePicture: 'Lac', messages: [
   ],
-background: 'https://img.freepik.com/photos-premium/magnifique-coucher-soleil-lac-roseaux-au-premier-plan-soleil-couchant-rayons_210632-640.jpg',
+background: '',
   choices: [
     "(arriver en retard)",
     "(arriver à l'heure)",
