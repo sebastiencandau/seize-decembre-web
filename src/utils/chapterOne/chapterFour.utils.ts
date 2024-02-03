@@ -713,7 +713,7 @@ export const followingMessage = async (message: string, playerName: string) => {
                     ],
                     choices: [
                         "hasta luego",
-                        "à samedi"
+                        "à samedi !"
                     ]
                 };
             } else {
