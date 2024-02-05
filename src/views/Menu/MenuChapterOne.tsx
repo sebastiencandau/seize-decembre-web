@@ -5,7 +5,7 @@ import SignInComponent from '../../auth/SignInComponent';
 import { getPlayerNameInFirebase, updateChapterInFirestore, updateChoicesInFirestore, updatePlayerNameInFirestore } from '../../services/firebase.services';
 import { signOut } from '../../auth/authService';
 
-const MenuChapterOne = ({ handleLogout, loading, gameState, chapter, startGame, restartGame }: any) => {
+const MenuChapterOne = ({startChapterTwo, handleLogout, loading, gameState, chapter, startGame, restartGame }: any) => {
   const [playerName, setPlayerName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [choicesModalVisible, setChoicesModalVisible] = useState(false);
@@ -75,7 +75,7 @@ const MenuChapterOne = ({ handleLogout, loading, gameState, chapter, startGame, 
                 {chapter < 6 || chapter === 999 || !chapter ? (
                   <button onClick={handlePress}>{chapter === 1 || !chapter ? 'Commencer' : 'Continuer'}</button>
                 ) : (
-                  <button>{`> CHAPITRE 2: bientôt disponible <`}</button>
+                  <button onClick={startChapterTwo}>{`> Commencer le CHAPITRE 2 <`}</button>
                 )}
                 <button onClick={handlePressRestart}>Recommencer le chapitre</button>
                 {chapter === 6 && (

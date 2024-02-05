@@ -1,121 +1,119 @@
 import React, { useState, useEffect } from 'react';
 import { choicesDescription } from '../../utils/chapters.utils';
+import './MenuChapterOne.css'; // Importer le fichier CSS
+import SignInComponent from '../../auth/SignInComponent';
+import { getPlayerNameInFirebase, updateChapterInFirestore, updateChoicesInFirestore, updatePlayerNameInFirestore } from '../../services/firebase.services';
+import { signOut } from '../../auth/authService';
 
-const MenuChapterTwo = ({ changeChapter, startGame, chapter, restartGame }: any) => {
+const MenuChapterTwo = ({ handleLogout, loading, gameState, chapter, startChapterTwo, restartGame }: any) => {
   const [playerName, setPlayerName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const [restart, setRestart] = useState(false);
   const [choicesModalVisible, setChoicesModalVisible] = useState(false);
   const [choicesList, setChoicesList] = useState<any>([]);
-  const [backgroundMusic, setBackgroundMusic] = useState<any>();
-
-  const startMusic = async () => {
-    if (chapter) {
-      if (chapter === 6) {
-        const sound = new Audio('https://example.com/chapter_one_ending_music.mp3');
-        sound.play();
-        setBackgroundMusic(sound);
-      } else {
-        const sound = new Audio('https://example.com/max_and_chloe.mp3');
-        sound.play();
-        setBackgroundMusic(sound);
-      }
-    }
-  };
-
-  useEffect(() => {
-    startMusic();
-  }, [chapter]);
+  const [gameStarted, setGameStarted] = useState(gameState)
 
   const handlePress = async () => {
-    if (await localStorage.getItem('playerName')) {
-      if (!restart) {
-        startGame();
-      } else {
-        restartGame();
-      }
+    const name = await getPlayerNameInFirebase();
+    if (name) {
+      startChapterTwo();
     } else {
       setModalVisible(true);
     }
   };
 
-  const handlePressRestart = async () => {
-    await localStorage.clear();
-    setRestart(true);
-    handlePress();
-  };
-
-  const handleStartGame = async () => {
-    backgroundMusic.stop();
-    await localStorage.setItem('choices', JSON.stringify([]));
-    await localStorage.setItem('playerName', playerName);
+  const handleStartGame = () => {
+    updateChoicesInFirestore([]);
+    updatePlayerNameInFirestore(playerName);
     setModalVisible(false);
     handlePress();
   };
 
-  const handlePressChoices = async () => {
-    const savedChoices = await localStorage.getItem('choices');
-    if (savedChoices) {
-      const choices = JSON.parse(savedChoices);
-      setChoicesList(await choicesDescription());
 
-      setChoicesModalVisible(true);
-    }
+  const handlePressRestart = async () => {
+    await localStorage.clear();
+    localStorage.clear();
+    updateChapterInFirestore(1);
+    updateChoicesInFirestore([]);
+    updatePlayerNameInFirestore(null);
+    handlePress();
   };
 
+  const handlePressChoices = async () => {
+
+    setChoicesList(await choicesDescription());
+
+    setChoicesModalVisible(true);
+  };
+
+  useEffect(() => {
+    if (gameStarted === true) {
+      // Code pour gérer l'autoplay ici
+      const audio = document.getElementById('audio') as HTMLAudioElement;
+      audio.play().catch(error => {
+        // Gérer l'erreur liée à la lecture automatique
+        console.error('Erreur de lecture automatique :', error);
+      });
+    }
+  },);
+
   return (
-    <div>
-      chapter !== 6 && (
-        <div>
-          <p>Seize décembre</p>
-          <p>Chapitre 1: Lucie</p>
-          <button onClick={handlePress}>{chapter === 1 || !chapter ? 'Commencer' : 'Continuer'}</button>
-          <button onClick={handlePressRestart}>Recommencer le chapitre</button>
-        </div>
+    <div className="menu-container">
+      {loading ? (
+        // Afficher uniquement si loading est vrai
+        <div>Loading...</div>
       ) : (
-        <div>
-          <p>Seize décembre</p>
-          <p>Chapitre 1: Lucie</p>
-          <button onClick={handlePressChoices}>Voir mes choix</button>
-          <button onClick={handlePressRestart}>Recommencer</button>
-          <button onClick={changeChapter}>Lancer le chapitre 2</button>
-        </div>
-      )
-
-      {modalVisible && (
-        <div>
-          <p>Entrez votre nom:</p>
-          <input
-            type="text"
-            placeholder="Nom du joueur"
-            onChange={(e) => setPlayerName(e.target.value)}
-          />
-          <button onClick={handleStartGame}>Commencer</button>
-        </div>
-      )}
-
-      {choicesModalVisible && (
-        <div>
-          <p>Vos choix :</p>
-          <div>
-            {choicesList.map((choice: any, index: any) => (
-              <div key={index}>
-                {index % 2 === 0 ? (
-                  <>
-                    {choice.img && <img src={choice.img} alt="choice" />}
-                    <p>{choice.desc}</p>
-                  </>
-                ) : (
-                  <>
-                    <p>{choice.desc}</p>
-                    {choice.img && <img src={choice.img} alt="choice" />}
-                  </>
-                )}
-              </div>
-            ))}
+        // Afficher le contenu lorsque loading est faux
+        <>
+          <div className="logout-icon" style={{ color: 'black', }} onClick={() => handleLogout()}>
+            <p>⟨ se déconnecter</p>
           </div>
-          <button onClick={() => setChoicesModalVisible(false)}>Fermer</button>
-        </div>
+          {!choicesModalVisible && (
+            <>
+              <h1>Seize décembre</h1>
+              <h2>Chapitre 2: Aveuglés</h2>
+              <div className="button-container">
+                {chapter < 10 ? (
+                  <button onClick={handlePress}>{chapter === 1 || !chapter ? 'Commencer' : 'Continuer'}</button>
+                ) : (
+                  <button>{`> CHAPITRE 3: bientôt disponible <`}</button>
+                )}
+                <button onClick={handlePressRestart}>Recommencer le jeu</button>
+                <button onClick={handlePressChoices}>Mes choix</button>
+              </div>
+              {modalVisible && (
+                <div className="modal-container">
+                  <div className="modal">
+                    <div className="modal-content">
+                      <div className='modal-content-title'>
+                        <h1>Entrez votre nom:</h1>
+                        <input type="text" value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
+                      </div>
+                      <button onClick={handleStartGame}>Commencer</button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Modale pour les choix */}
+          {choicesModalVisible && (
+            <div className='choices-container'>
+              <h2>Mes choix</h2>
+              <div className="choices-list-container">
+                <ul className="choices-list">
+                  {choicesList.map((choice: any, index: number) => (
+                    <li key={index} className={index % 2 === 0 ? 'even' : 'odd'}>
+                      <p>{choice.desc}</p>
+                      <img src={choice.img} alt={`Choice ${index + 1}`} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button onClick={() => setChoicesModalVisible(false)}>Fermer</button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -12,6 +12,8 @@ import { database } from './auth/firebaseConfig';
 import { json } from 'stream/consumers';
 import { ClipLoader } from 'react-spinners';
 import { signOut } from './auth/authService';
+import ChapterIntroduction from './components/ChapterIntroduction';
+import { narrative } from './utils/chapterTwo/chapterTwoIntroduction.utils';
 
 const App: React.FC = () => {
   const [chapter, setChapter] = useState<number | undefined>();
@@ -34,6 +36,19 @@ const App: React.FC = () => {
     }
     setLoading(false);
   };
+
+  const startChapterTwo = async () => {
+    setLoading(true);
+    const fetchedChapter = await getChapterInFirebase();
+    console.log(fetchedChapter);
+    if (!fetchedChapter) {
+      startGameToZero();
+    } else {
+      setChapter(fetchedChapter);
+      setIndicationState(true);
+    }
+    setLoading(false);
+  }
 
   const startConversation = async () => {
     setLoading(true);
@@ -168,10 +183,21 @@ const handleLogout = () => {
             <>
               {indicationsState ? (
                 <>
-                  <audio autoPlay src={require('./assets/musics/max_and_chloe.mp3')} id="audio" loop />
-                  <div>
-                    <NarativeScreen startConversation={startConversation} currentIndications={narativeIndicationsForChapter(chapter!)!} />
-                  </div>
+                  {chapter === 6 ? (
+                    <>
+                    <audio autoPlay src={require('./assets/musics/chapter_one_ending_music.mp3')} id="audio" loop />
+                    <ChapterIntroduction setIndicationState={setIndicationState} setChapter={setChapter} currentIndications={narrative} chapter={chapter}/>
+
+                    </>
+                  ) :
+                    (
+                      <>
+                        <audio autoPlay src={require('./assets/musics/max_and_chloe.mp3')} id="audio" loop />
+                        <div>
+                          <NarativeScreen startConversation={startConversation} currentIndications={narativeIndicationsForChapter(chapter!)!} />
+                        </div>
+                      </>
+                    )}
                 </>
               ) : !chapterStarted && (!chapter || (chapter >= 1 && chapter <= 6) || chapter === 999) ? (
                   <>
@@ -185,7 +211,7 @@ const handleLogout = () => {
                         </div>
                       </>
                     )}
-                    <MenuChapterOne handleLogout={handleLogout} loading={loading} gameState={gameStarted} chapter={chapter} startGame={startGame} />
+                    <MenuChapterOne startChapterTwo={startChapterTwo} handleLogout={handleLogout} loading={loading} gameState={gameStarted} chapter={chapter} startGame={startGame} />
                   </>
               ) : chapterStarted && (
                 <>
