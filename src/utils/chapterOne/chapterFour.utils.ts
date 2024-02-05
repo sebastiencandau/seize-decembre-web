@@ -356,7 +356,7 @@ export const followingMessage = async (message: string, playerName: string) => {
         case "je peux ramener de quoi rouler":
         case "je peux prendre des chips et de la bouffe":
             choices = JSON.parse(await localStorage.getItem('choices')!);
-            if(choices[1] === "honnete"){
+            if (choices[1] === "honnete") {
                 return {
                     messages: [
                         {
@@ -403,7 +403,7 @@ export const followingMessage = async (message: string, playerName: string) => {
                         {
                             msg: "je crois qu'on est bons",
                             type: null,
-                            prenom:"Mathieu",
+                            prenom: "Mathieu",
                             received: true
                         },
                         {
@@ -519,92 +519,92 @@ export const followingMessage = async (message: string, playerName: string) => {
                     ]
                 };
             }
-            case "aucune idée":
-            case  "je gère vous inquiétez pas":
-                return {
-                    messages: [
-                        {
-                            msg: "bon...",
-                            prenom: "Sarah",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "des idées de ce qu'il manque ?",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "je crois qu'on est bons",
-                            type: null,
-                            prenom:"Mathieu",
-                            received: true
-                        },
-                        {
-                            msg: "je pense aussi, merci les copains 😊",
-                            prenom: "Lucie",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "je sais que j'ai pas pu être trop dispo ces derniers temps pour toi Sarah",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "alors je voulais te remercier d'être toujours autant présente",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "tsss c'est quoi ce moment emotion de con",
-                            prenom: "Sarah",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "ça me donne la gerbe",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "c'est normal que je sois la pour toi, c'est pas de ta faute tout les trucs crades qui t'arrivent",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "merci à tout les autres aussi, ça me fait vraiment trop plaisir !",
-                            prenom: "Lucie",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "A samedi les gars !!!",
-                            prenom: "Mathieu",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "a samedi",
-                            prenom: "Brice",
-                            type: null,
-                            received: true
-                        },
-                        {
-                            msg: "à samedi ! ^.^",
-                            prenom: "Sarah",
-                            type: null,
-                            received: true
-                        }
-                    ],
-                    choices: [
-                        "hasta luego",
-                        "à samedi"
-                    ]
-                }
-                case "je m'emmène moi c'est déjà ça":
+        case "aucune idée":
+        case "je gère vous inquiétez pas":
+            return {
+                messages: [
+                    {
+                        msg: "bon...",
+                        prenom: "Sarah",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "des idées de ce qu'il manque ?",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "je crois qu'on est bons",
+                        type: null,
+                        prenom: "Mathieu",
+                        received: true
+                    },
+                    {
+                        msg: "je pense aussi, merci les copains 😊",
+                        prenom: "Lucie",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "je sais que j'ai pas pu être trop dispo ces derniers temps pour toi Sarah",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "alors je voulais te remercier d'être toujours autant présente",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "tsss c'est quoi ce moment emotion de con",
+                        prenom: "Sarah",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "ça me donne la gerbe",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "c'est normal que je sois la pour toi, c'est pas de ta faute tout les trucs crades qui t'arrivent",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "merci à tout les autres aussi, ça me fait vraiment trop plaisir !",
+                        prenom: "Lucie",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "A samedi les gars !!!",
+                        prenom: "Mathieu",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "a samedi",
+                        prenom: "Brice",
+                        type: null,
+                        received: true
+                    },
+                    {
+                        msg: "à samedi ! ^.^",
+                        prenom: "Sarah",
+                        type: null,
+                        received: true
+                    }
+                ],
+                choices: [
+                    "hasta luego",
+                    "à samedi !"
+                ]
+            }
+        case "je m'emmène moi c'est déjà ça":
             choices = JSON.parse(await localStorage.getItem('choices')!);
-            if(choices[1] === "honnete"){
+            if (choices[1] === "honnete") {
                 return {
                     messages: [
                         {
@@ -651,7 +651,7 @@ export const followingMessage = async (message: string, playerName: string) => {
                         {
                             msg: "je crois qu'on est bons",
                             type: null,
-                            prenom:"Mathieu",
+                            prenom: "Mathieu",
                             received: true
                         },
                         {
@@ -767,17 +767,28 @@ export const followingMessage = async (message: string, playerName: string) => {
                     ]
                 };
             }
-            case "hasta luego":
-            case "à samedi !":
-                return {
-                    messages: [
-                {
-                  msg: "FIN DE LA PARTIE 4",
-                  type: 'end',
-                  received: true
-                }
-              ],
-                    choices: []
-                };
+        case "hasta luego":
+        case "à samedi !":
+            return {
+                messages: [
+                    {
+                        msg: "FIN DE LA PARTIE 4",
+                        type: 'end',
+                        received: true
+                    }
+                ],
+                choices: []
+            };
+        default:
+            return {
+                messages: [
+                    {
+                        msg: "FIN DE LA PARTIE 4",
+                        type: 'end',
+                        received: true
+                    }
+                ],
+                choices: []
+            };
     }
 }
