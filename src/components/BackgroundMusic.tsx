@@ -1,20 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const BackgroundMusic = ({ musicSrc }: {musicSrc: string}) => {
+const BackgroundMusic = ({ chapter }: {chapter: number}) => {
+
+  const [url, setUrl] = useState<string>();
+
   useEffect(() => {
-    const audio = new Audio(musicSrc);
+    if(chapter < 6){
+      setUrl('max_and_chloe')
+    } else if(chapter === 6){
+      setUrl('chapter_one_ending_music')
+    } else if(chapter > 6) {
+      setUrl('labyrinthe_of_pan');
+    }
+  }, [chapter]);
 
-    // Démarrer la musique automatiquement
-    audio.play();
+  useEffect(() => {
+    console.log(url);
+  }, [url]);
 
-    // Nettoyer l'audio lorsque le composant est démonté
-    return () => {
-      audio.pause();
-      audio.currentTime = 0;
-    };
-  }, [musicSrc]);
+  return (
+    <>
+    { url &&
+            <audio autoPlay src={require(`../assets/musics/${url}.mp3`)} id="audio" loop />
 
-  return null; // Ce composant ne rend rien dans l'interface utilisateur
+    }
+    </>
+  );
 };
 
 export default BackgroundMusic;

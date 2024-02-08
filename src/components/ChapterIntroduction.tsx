@@ -4,7 +4,7 @@ import './ChapterIntroduction.css'
 import { updateChapterInFirestore } from '../services/firebase.services';
 
 
-const ChapterIntroduction: React.FC<any> = ({setIndicationState, setChapter, currentIndications, chapter }) => {
+const ChapterIntroduction: React.FC<any> = ({stopChapter, setIndicationState, setChapter, currentIndications, chapter }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNextClick = () => {
@@ -13,14 +13,14 @@ const ChapterIntroduction: React.FC<any> = ({setIndicationState, setChapter, cur
     } else {
       updateChapterInFirestore(chapter + 1);
       localStorage.setItem('chapter', JSON.stringify(chapter + 1));
-      setIndicationState(false);
+      stopChapter();
     }
   };
 
   const currentIndication = currentIndications[currentIndex];
 
   return (
-    <div className="container">
+    <div className={chapter < 6 ? 'container-ch1' : chapter === 6 ? 'container-ch2' : ''}>
       <div className="overlay">
         <p className="narrative-text">{currentIndication}</p>
         <button onClick={handleNextClick}>{currentIndex === currentIndications.length -1 ? "Commencer le chapitre" : "Suivant"}</button>

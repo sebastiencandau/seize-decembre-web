@@ -5,10 +5,11 @@ import './NarativeScreen.css';
 
 interface NarativeScreenProps {
   currentIndications: string[];
+  chapter: number;
   startConversation(): void;
 }
 
-const NarativeScreen: React.FC<NarativeScreenProps> = ({ startConversation, currentIndications }) => {
+const NarativeScreen: React.FC<NarativeScreenProps> = ({chapter, startConversation, currentIndications }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const NarativeScreen: React.FC<NarativeScreenProps> = ({ startConversation, curr
         }
         return newIndex;
       });
-    }, 5000);
+    }, 500);
 
     return () => clearInterval(interval);
   }, [currentIndications, startConversation]);
@@ -29,7 +30,7 @@ const NarativeScreen: React.FC<NarativeScreenProps> = ({ startConversation, curr
   const currentIndication = currentIndications[currentIndex];
 
   return (
-    <div className="container">
+    <div className={chapter < 6 ? 'container-ch1' : chapter > 6 ? 'container-ch2' : ''}>
       <div className="overlay">
         <p className="narrative-text">{currentIndication}</p>
       </div>

@@ -57,7 +57,7 @@ const MenuChapterOne = ({startChapterTwo, handleLogout, loading, gameState, chap
   },);
 
   return (
-    <div className="menu-container">
+    <div className="menu-container-ch1">
       {loading ? (
         // Afficher uniquement si loading est vrai
         <div>Loading...</div>

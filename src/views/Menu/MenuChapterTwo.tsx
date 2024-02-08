@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { choicesDescription } from '../../utils/chapters.utils';
-import './MenuChapterOne.css'; // Importer le fichier CSS
+import './MenuChapterTwo.css'; // Importer le fichier CSS
 import SignInComponent from '../../auth/SignInComponent';
 import { getPlayerNameInFirebase, updateChapterInFirestore, updateChoicesInFirestore, updatePlayerNameInFirestore } from '../../services/firebase.services';
 import { signOut } from '../../auth/authService';
 
-const MenuChapterTwo = ({ handleLogout, loading, gameState, chapter, startChapterTwo, restartGame }: any) => {
+const MenuChapterTwo = ({ handleLogout, loading, gameState, chapter, startGame, restartGame }: any) => {
   const [playerName, setPlayerName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [choicesModalVisible, setChoicesModalVisible] = useState(false);
@@ -15,7 +15,7 @@ const MenuChapterTwo = ({ handleLogout, loading, gameState, chapter, startChapte
   const handlePress = async () => {
     const name = await getPlayerNameInFirebase();
     if (name) {
-      startChapterTwo();
+      startGame();
     } else {
       setModalVisible(true);
     }
@@ -57,7 +57,7 @@ const MenuChapterTwo = ({ handleLogout, loading, gameState, chapter, startChapte
   },);
 
   return (
-    <div className="menu-container">
+    <div className="menu-container-ch2">
       {loading ? (
         // Afficher uniquement si loading est vrai
         <div>Loading...</div>
@@ -73,7 +73,7 @@ const MenuChapterTwo = ({ handleLogout, loading, gameState, chapter, startChapte
               <h2>Chapitre 2: Aveuglés</h2>
               <div className="button-container">
                 {chapter < 10 ? (
-                  <button onClick={handlePress}>{chapter === 1 || !chapter ? 'Commencer' : 'Continuer'}</button>
+                  <button onClick={handlePress}>{chapter === 7 || !chapter ? 'Commencer' : 'Continuer'}</button>
                 ) : (
                   <button>{`> CHAPITRE 3: bientôt disponible <`}</button>
                 )}

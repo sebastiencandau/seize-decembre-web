@@ -66,6 +66,7 @@ const Conversation = ({ setGameState, chapter, playerName, stopChapter }: props)
             setTimeout(() => {
               updateChoicesInFirestore(JSON.parse(localStorage.getItem('choices')!));
               updateChapterInFirestore(getFutureChapter(chapter));
+              localStorage.setItem('chapter', JSON.stringify(getFutureChapter(chapter)));
               stopChapter();
             }, 4000);
           }

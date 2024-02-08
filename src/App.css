@@ -1,0 +1,27 @@
+.menu-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://www.numerama.com/wp-content/uploads/2018/08/ss_f589f1d664ad6932064052c265b59f9fa3eea322-1920x1080.jpg')!important;
+    background-size: cover;
+    background-position: center;
+    filter: blur(5px); /* Ajoute l'effet de flou à l'arrière-plan seulement */
+    z-index: -1; /* Place l'élément pseudo-élément en dessous du contenu */
+  }
+
+.global-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://www.numerama.com/wp-content/uploads/2018/08/ss_f589f1d664ad6932064052c265b59f9fa3eea322-1920x1080.jpg')!important;
+    background-size: cover;
+    background-position: center;
+    filter: blur(5px); /* Ajoute l'effet de flou à l'arrière-plan seulement */
+    z-index: -1; /* Place l'élément pseudo-élément en dessous du contenu */
+}

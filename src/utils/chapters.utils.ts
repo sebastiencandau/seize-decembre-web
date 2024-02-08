@@ -9,6 +9,7 @@ import { choices } from '../interfaces/choices.interface';
 
 
 export const narativeIndicationsForChapter = (chapterNumber: number) => {
+    console.log(chapterNumber);
     if (chapterNumber === 1) {
         return chapterOne.narativeIndications;
     } else if (chapterNumber === 2) {
@@ -21,7 +22,7 @@ export const narativeIndicationsForChapter = (chapterNumber: number) => {
         return chapterRdv.narativeIndications;
     } else if(chapterNumber === 5){
         return chapterFinal.narativeIndications;
-    } else if(chapterNumber === 8){
+    } else if(chapterNumber === 7){
         return chapterHeight.narativeIndications;
     }
 }
@@ -39,7 +40,7 @@ export const followingMessage = async (chapterNumber: number, message: string, p
         return chapterFinal.followingMessage(message, playerName);
     } else if (chapterNumber === 999){
         return chapterRdv.followingMessage(message, playerName);
-    } else if(chapterNumber === 8){
+    } else if(chapterNumber === 7){
         return chapterHeight.followingMessage(message, playerName);
     }
 }
@@ -57,7 +58,7 @@ export const startingConversation = (chapterNumber: number) => {
         return chapterRdv.startingConversation;
     } else if(chapterNumber === 5){
         return chapterFinal.startingConversation;
-    } else if(chapterNumber === 8){
+    } else if(chapterNumber === 7){
         return chapterHeight.startingConversation;
     }
     else {
