@@ -3,18 +3,18 @@ import { IConversation } from "../../interfaces/messages.interface";
 export const NAME = 'Matéo';
 
 export const narativeIndications = [
-    "Chapitre 1: Lucie",
-    "Dernière partie",
-    "16 décembre 2016"
+    "Chapitre 2: Aveuglés",
+    "Partie 1: Walt Mitty",
+    "14 novembre 2017"
 ]
 
 export const startingConversation: IConversation =
 {
     id: 5,
-    name: 'John Doe',
-    profilePicture: 'https://www.uni-giessen.de/de/fbz/fb10/institute_klinikum/klinikum/kramer/professur/team/bilder/mannanonym/@@images/image.jpeg',
+    name: 'Walt Mitty',
+    profilePicture: 'Doe',
     messages: [
-        { type: 'indication', received: true, msg: `John Doe vous a ajouté` },
+        { type: 'indication', received: true, msg: `Walt Mitty veut vous envoyer un message` },
     ],
     choices: [
         "(Accepter)",
@@ -67,7 +67,7 @@ export const followingMessage = async (message: string, playerName: string) => {
                         received: true
                     },
                     {
-                        msg: "Lucie ne s'est pos suicidée",
+                        msg: "Lucie ne s'est pas suicidée",
                         type: null,
                         received: true
                     },
@@ -102,7 +102,7 @@ export const followingMessage = async (message: string, playerName: string) => {
                         received: true
                     },
                     {
-                        msg: "Lucie ne s'est pos suicidée",
+                        msg: "Lucie ne s'est pas suicidée",
                         type: null,
                         received: true
                     },
@@ -196,8 +196,9 @@ export const followingMessage = async (message: string, playerName: string) => {
                     }
                 ],
                 choices: [
-                    "non, mais je veux bien essayer",
-                    "oui, je te crois"
+                    "non.",
+                    "oui, je te crois",
+                    "Je veux simplement écouter ce que tu as à me dire"
                 ]
             };
         case "comment tu peux savoir tout ça ?":
@@ -231,6 +232,7 @@ export const followingMessage = async (message: string, playerName: string) => {
             };
         case "non, mais je veux bien essayer":
         case "oui, je te crois":
+        case "Je veux simplement écouter ce que tu as à me dire":
         case "bon, je suis prêt à t'écouter":
         case "c'est normal, je l'aimais":
         case "dis moi ce que tu as à me dire.":
@@ -338,15 +340,57 @@ export const followingMessage = async (message: string, playerName: string) => {
                         received: true
                     },
                     {
-                        msg: "FIN DE LA PARTIE 1",
-                        type: "chapter_end",
+                        msg: "Faites un dernier choix crutial pour finir la partie 1.",
+                        type: "indication",
                         received: true
-                    }
+                    },
                 ],
                 choices: [
-                    ""
+                    "EN PARLER A SARAH",
+                    "ENQUETER SEUL"
                 ]
             };
+        case "EN PARLER A SARAH":
+            choices = JSON.parse(await localStorage.getItem('choices')!)
+            choices[6] = 'team';
+            localStorage.setItem('choices', JSON.stringify(choices));
+            return {
+                messages: [
+                    {
+                        msg: "ce choix aura des conséquences",
+                        type: 'indication',
+                        received: true
+                    },
+                    {
+                        msg: "FIN DE LA PARTIE 1",
+                        type: 'chapter_end',
+                        received: true
+                    },
+                ],
+                choices: [
+                ]
+            };
+            case "ENQUETER SEUL":
+                choices = JSON.parse(await localStorage.getItem('choices')!)
+                choices[6] = 'alone';
+                localStorage.setItem('choices', JSON.stringify(choices));
+                return {
+                    messages: [
+                        {
+                            msg: "ce choix aura des conséquences",
+                            type: 'indication',
+                            received: true
+                        },
+                        {
+                            msg: "FIN DE LA PARTIE 1",
+                            type: 'chapter_end',
+                            received: true
+                        },
+                    ],
+                    choices: [
+                    ]
+                };
+
     }
 
 }
