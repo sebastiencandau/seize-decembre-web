@@ -35,13 +35,17 @@ const App: React.FC = () => {
       startGameToZero();
     } else {
       setChapter(fetchedChapter);
-      setIndicationState(true);
+      if(chapter !== 9){
+        setIndicationState(true);
+      } else {
+        setChapterStarted(true);
+      }
     }
     setLoading(false);
   };
 
   const startChapterTwo = async () => {
-    if(chapter === 6){
+    if (chapter === 6) {
       setIndicationState(true);
       setStarted(true);
     }
@@ -66,7 +70,7 @@ const App: React.FC = () => {
   };
 
   const stopChapter = async () => {
-    if(indicationsState){
+    if (indicationsState) {
       setIndicationState(false);
     }
     setChapter(JSON.parse(localStorage.getItem('chapter')!))
@@ -105,43 +109,43 @@ const App: React.FC = () => {
     setLoading(false);
   };
 
-useEffect(() => {
-  const audio = document.getElementById('audio') as HTMLAudioElement | null;
+  useEffect(() => {
+    const audio = document.getElementById('audio') as HTMLAudioElement | null;
 
-  if (audio) {
-    if (chapterStarted) {
-      audio.volume = 1; // Rétablir le volume à 1 au cas où il était précédemment diminué
+    if (audio) {
+      if (chapterStarted) {
+        audio.volume = 1; // Rétablir le volume à 1 au cas où il était précédemment diminué
 
-      // Fade out progressif
-      const fadeOutInterval = setInterval(() => {
-        if (audio.volume > 0.1) {
-          audio.volume -= 0.1;
-        } else {
-          clearInterval(fadeOutInterval);
-          audio.pause();
-        }
-      }, 500);
+        // Fade out progressif
+        const fadeOutInterval = setInterval(() => {
+          if (audio.volume > 0.1) {
+            audio.volume -= 0.1;
+          } else {
+            clearInterval(fadeOutInterval);
+            audio.pause();
+          }
+        }, 500);
 
-      return () => clearInterval(fadeOutInterval);
-    } else {
-      // Si chapterStarted n'est pas true, maintenir le volume à 1
-      audio.volume = 1;
+        return () => clearInterval(fadeOutInterval);
+      } else {
+        // Si chapterStarted n'est pas true, maintenir le volume à 1
+        audio.volume = 1;
+      }
     }
-  }
-}, [chapterStarted]);
+  }, [chapterStarted]);
 
 
-const handleLogout = () => {
-  // Call the signOut method to handle user logout
-  signOut();
-  // Clear localStorage
-  localStorage.clear();
-  // Close the logout modal
-  setUser(undefined);
-  setStarted(false);
-  // Redirect or perform additional actions as needed
-};
-  
+  const handleLogout = () => {
+    // Call the signOut method to handle user logout
+    signOut();
+    // Clear localStorage
+    localStorage.clear();
+    // Close the logout modal
+    setUser(undefined);
+    setStarted(false);
+    // Redirect or perform additional actions as needed
+  };
+
 
   useEffect(() => {
     fetchUserData();
@@ -168,12 +172,12 @@ const handleLogout = () => {
               const fetchedChapter = await getChapterInFirebase();
               setChapter(fetchedChapter)
               const fetchedPlayerName = await getPlayerNameInFirebase();
-              if(fetchedPlayerName){
+              if (fetchedPlayerName) {
                 localStorage.setItem('playerName', fetchedPlayerName);
               }
               localStorage.setItem('chapter', JSON.stringify(fetchedChapter));
               const fetchedChoices = await getChoicesInFirebase();
-              if(fetchedChoices){
+              if (fetchedChoices) {
                 localStorage.setItem('choices', JSON.stringify(fetchedChoices));
               }
               setStarted(true)
@@ -190,14 +194,14 @@ const handleLogout = () => {
                 <>
                   {chapter === 6 ? (
                     <>
-                    <BackgroundMusic chapter={chapter}></BackgroundMusic>
-                    <ChapterIntroduction stopChapter={stopChapter} setIndicationState={setIndicationState} setChapter={setChapter} currentIndications={narrative} chapter={chapter}/>
+                      <BackgroundMusic chapter={chapter}></BackgroundMusic>
+                      <ChapterIntroduction stopChapter={stopChapter} setIndicationState={setIndicationState} setChapter={setChapter} currentIndications={narrative} chapter={chapter} />
 
                     </>
                   ) :
                     (
                       <>
-                    <BackgroundMusic chapter={chapter!}></BackgroundMusic>
+                        <BackgroundMusic chapter={chapter!}></BackgroundMusic>
                         <div>
                           <NarativeScreen startConversation={startConversation} chapter={chapter!} currentIndications={narativeIndicationsForChapter(chapter!)!} />
                         </div>
@@ -205,37 +209,41 @@ const handleLogout = () => {
                     )}
                 </>
               ) : !chapterStarted && (!chapter || (chapter >= 1 && chapter <= 6) || chapter === 999) ? (
-                  <>
-                    <BackgroundMusic chapter={chapter!}></BackgroundMusic>
-                    {loading && (
-                      <>
-                        <div style={{ textAlign: 'center' }}>
-                          <ClipLoader color="#000" loading={loading} size={35} />
-                        </div>
-                      </>
-                    )}
-                    <MenuChapterOne startChapterTwo={startChapterTwo} handleLogout={handleLogout} loading={loading} gameState={gameStarted} chapter={chapter} startGame={startGame} />
-                  </>
-              ) : !chapterStarted && (!chapter || (chapter > 6 && chapter <= 12) || chapter === 1000) ? (
-                <>
-                {
-                  <BackgroundMusic chapter={chapter!}/>
-                }
-                {loading && (
-                  <>
-                    <div style={{ textAlign: 'center' }}>
-                      <ClipLoader color="#000" loading={loading} size={35} />
-                    </div>
-                  </>
-                )}
-                <MenuChapterTwo startChapterTwo={startChapterTwo} handleLogout={handleLogout} loading={loading} gameState={gameStarted} chapter={chapter} startGame={startGame} />
-              </>
-              ) : chapterStarted && (
                 <>
                   <BackgroundMusic chapter={chapter!}></BackgroundMusic>
-                  <Conversation setGameState={setGameStarted} chapter={chapter!} stopChapter={stopChapter} playerName={localStorage.getItem('playerName')!} />
+                  {loading && (
+                    <>
+                      <div style={{ textAlign: 'center' }}>
+                        <ClipLoader color="#000" loading={loading} size={35} />
+                      </div>
+                    </>
+                  )}
+                  <MenuChapterOne startChapterTwo={startChapterTwo} handleLogout={handleLogout} loading={loading} gameState={gameStarted} chapter={chapter} startGame={startGame} />
                 </>
-              )}
+              ) : !chapterStarted && (!chapter || (chapter > 6 && chapter <= 12) || chapter === 1000) ? (
+                <>
+                  {
+                    <BackgroundMusic chapter={chapter!} />
+                  }
+                  {loading && (
+                    <>
+                      <div style={{ textAlign: 'center' }}>
+                        <ClipLoader color="#000" loading={loading} size={35} />
+                      </div>
+                    </>
+                  )}
+                  <MenuChapterTwo startChapterTwo={startChapterTwo} handleLogout={handleLogout} loading={loading} gameState={gameStarted} chapter={chapter} startGame={startGame} />
+                </>
+              )
+                : chapterStarted && chapter !== 9 && (
+                  <>
+                    <BackgroundMusic chapter={chapter!}></BackgroundMusic>
+                    <Conversation setGameState={setGameStarted} chapter={chapter!} stopChapter={stopChapter} playerName={localStorage.getItem('playerName')!} />
+                  </>
+                ) || chapterStarted && chapter === 9 && (
+                  window.location.href = './point_and_click_game/index.html'
+                  )
+              }
             </>
           )}
         </>

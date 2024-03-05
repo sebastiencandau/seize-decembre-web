@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Troll</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #ff0000;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oops, vous n'avez pas accès à cette page !</h1>
+    <p>Cette page est réservée aux utilisateurs connectés au chapitre 9.</p>
+    
+    <button onclick="revenirAuMenu()">Revenir au Menu</button>
+
+    <script>
+        function revenirAuMenu() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>

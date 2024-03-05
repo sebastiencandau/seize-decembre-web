@@ -24,7 +24,7 @@ body {
     border: 1px solid black;
 }
 
-#object1 {
+#room-1 {
     width: 10%; /* Ajuste la taille en pourcentage selon tes besoins */
     height: 10%;
     left: 65%;
@@ -32,7 +32,7 @@ body {
     /* Ajoute d'autres propriétés CSS selon tes besoins */
 }
 
-#object2 {
+#room-2 {
     width: 10%; /* Ajuste la taille en pourcentage selon tes besoins */
     height: 20%;
     left: 30%;
