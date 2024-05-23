@@ -72,7 +72,7 @@ const MenuChapterTwo = ({ handleLogout, loading, gameState, chapter, startGame, 
               <h1>Seize décembre</h1>
               <h2>Chapitre 2: Aveuglés</h2>
               <div className="button-container">
-                {chapter < 10 ? (
+                {chapter < 10 || chapter === 1000 ? (
                   <button onClick={handlePress}>{chapter === 7 || !chapter ? 'Commencer' : 'Continuer'}</button>
                 ) : (
                   <button>{`> CHAPITRE 3: bientôt disponible <`}</button>

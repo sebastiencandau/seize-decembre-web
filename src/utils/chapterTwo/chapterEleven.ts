@@ -10,9 +10,9 @@ export const narativeIndications = [
 
 export const startingConversation: IConversation =
 {
-    id: 5,
-    name: 'Walt Mitty',
-    profilePicture: 'Doe',
+    id: 10,
+    name: 'Brice',
+    profilePicture: 'Brice',
     messages: [
         { type: 'indication', received: true, msg: `Walt Mitty veut vous envoyer un message` },
     ],

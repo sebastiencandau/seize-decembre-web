@@ -240,7 +240,7 @@ const App: React.FC = () => {
                     <BackgroundMusic chapter={chapter!}></BackgroundMusic>
                     <Conversation setGameState={setGameStarted} chapter={chapter!} stopChapter={stopChapter} playerName={localStorage.getItem('playerName')!} />
                   </>
-                ) || chapterStarted && chapter === 9 && (
+                ) || chapterStarted && chapter === 8 && (
                   window.location.href = './point_and_click_game/index.html'
                   )
               }

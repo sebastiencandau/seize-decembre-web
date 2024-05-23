@@ -4,7 +4,8 @@ import * as chapterThree from './chapterOne/chapterThree.utils';
 import * as chapterFour from './chapterOne/chapterFour.utils';
 import * as chapterRdv from './chapterOne/chapterRdv.utils';
 import * as chapterFinal from './chapterOne/chapterFinal.utils'
-import * as chapterHeight from './chapterTwo/chapterHeight.utils'
+import * as chapterSeven from './chapterTwo/chapterSeven.utils'
+import * as chapterOneThousand from './chapterTwo/chapterOneThousand.utils'
 import { choices } from '../interfaces/choices.interface';
 
 
@@ -23,7 +24,9 @@ export const narativeIndicationsForChapter = (chapterNumber: number) => {
     } else if(chapterNumber === 5){
         return chapterFinal.narativeIndications;
     } else if(chapterNumber === 7){
-        return chapterHeight.narativeIndications;
+        return chapterSeven.narativeIndications;
+    }else if (chapterNumber === 1000){
+        return chapterOneThousand.narativeIndications;
     }
 }
 
@@ -41,7 +44,9 @@ export const followingMessage = async (chapterNumber: number, message: string, p
     } else if (chapterNumber === 999){
         return chapterRdv.followingMessage(message, playerName);
     } else if(chapterNumber === 7){
-        return chapterHeight.followingMessage(message, playerName);
+        return chapterSeven.followingMessage(message, playerName);
+    } else if (chapterNumber === 1000){
+        return chapterOneThousand.followingMessage(message, playerName);;
     }
 }
 
@@ -53,13 +58,15 @@ export const startingConversation = (chapterNumber: number) => {
     } else if (chapterNumber === 3) {
         return chapterThree.startingConversation;
     } else if (chapterNumber === 4) {
-                    return chapterFour.startingConversation;
-        } else if(chapterNumber === 999){
+        return chapterFour.startingConversation;
+    } else if (chapterNumber === 999) {
         return chapterRdv.startingConversation;
-    } else if(chapterNumber === 5){
+    } else if (chapterNumber === 5) {
         return chapterFinal.startingConversation;
-    } else if(chapterNumber === 7){
-        return chapterHeight.startingConversation;
+    } else if (chapterNumber === 7) {
+        return chapterSeven.startingConversation;
+    } else if (chapterNumber === 1000){
+        return chapterOneThousand.startingConversation;
     }
     else {
         return chapterOne.startingConversation
@@ -72,7 +79,20 @@ export const getFutureChapter = (currentChapter: number): number => {
         if(choicesData.includes('rdv')){
             return 999;
         }
-    } else if (currentChapter === 999){
+    } else if (currentChapter === 7) {
+        if(choicesData.includes('team')){
+            return 1000;
+        } else return 8;
+    } else if (currentChapter === 11) {
+        if(choicesData.includes('rdv_sarah')){
+            return 1002;
+        } else return 1001;
+    }else if (currentChapter === 1002) {
+        return 1003;
+    } else if (currentChapter === 1001 || currentChapter === 1003){
+        return 12;
+    }
+    else if (currentChapter === 999){
         return 4;
     }
     return currentChapter +1
