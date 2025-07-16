@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Point and Click Game</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="room1-style.css"> <!-- Ajoutez les autres feuilles de style ici -->
-    <link rel="stylesheet" href="room0-style.css"> <!-- Ajoutez les autres feuilles de style ici -->
+    <link rel="stylesheet" href="room1-style.css">
+    <link rel="stylesheet" href="room0-style.css">
+    <link rel="stylesheet" href="room2-style.css">
     <script src="script.js" defer></script>
     <style>
-        /* Style de la flèche retour */
         .back-arrow {
             position: fixed;
             top: 20px;
@@ -20,43 +21,63 @@
         }
     </style>
 </head>
+
 <body>
     <div id="game-container">
 
         <!-- SALLE PRINCIPALE -->
         <div id="room-0" class="room">
             <div class="interactive-object" id="room-0-obj1"></div>
-            <!-- Ajoutez plus d'objets interactifs ici -->
+            <div class="interactive-object" id="room-0-obj2"></div>
         </div>
-
-
-
 
         <!-- SALLE 1 - LIVRES ET MUSIQUE -->
         <div id="room-1" class="room" style="display: none;">
             <p class="back-arrow">&larr;</p>
             <div class="interactive-object" id="object1">
-                <div class="obj1-book">À la recherche du temps perdu - Marcel Proust</div>
-                <div class="obj1-book">Moby Dick - Herman Melville</div>
-                <div class="obj1-book">Les Hauts de Hurlevent - Emily Brontë</div>
-                <div class="obj1-book">Anna Karénine - Léon Tolstoï</div>
-                <div class="obj1-book">Madame Bovary - Gustave Flaubert</div>
-                <div class="obj1-book">Walden ou la vie dans les bois - Henry David Thoreau</div>                
+                <div class="obj1-book">📘 À la recherche du temps perdu - Marcel Proust</div>
+                <div class="obj1-book">📘 Moby Dick - Herman Melville</div>
+                <div class="obj1-book">📘 Les Hauts de Hurlevent - Emily Brontë</div>
+                <div class="obj1-book">📘 Anna Karénine - Léon Tolstoï</div>
+                <div class="obj1-book">📘 Madame Bovary - Gustave Flaubert</div>
+                <div class="obj1-book">📘 Walden ou la vie dans les bois - Henry David Thoreau</div>
             </div>
             <div class="interactive-object" id="object2">
-                <div class="obj2-book">Manuel de Mathématique terminale</div>
-                <div class="obj2-book">Manuel de Français Terminale</div>
-                <div class="obj2-book">Manuel de Physique Chimie Terminale</div>               
+                <div class="obj2-book">📕 Manuel de Mathématique terminale</div>
+                <div class="obj2-book">📕 Manuel de Français Terminale</div>
+                <div class="obj2-book">📕 Manuel de Physique Chimie Terminale</div>
             </div>
             <div class="interactive-object" id="object3">
-                <div class="obj3-book">Poste de musique</div>         
+                <div class="obj3-book">🎶 Poste de musique</div>
             </div>
             <div class="interactive-object" id="object4">
-                <div class="obj4-book">Rangement vêtements</div>         
+                <div class="obj4-book">👕 Rangement vêtements</div>
             </div>
         </div>
 
+        <!-- SALLE 2 - CDs & SAC À DOS -->
+        <div id="room-2" class="room" style="display: none;">
+            <p class="back-arrow">&larr;</p>
+
+            <div class="interactive-object cds">
+                <div class="cd" data-src="assets/musics/cd_diams.mp3">💿 Diam's</div>
+                <div class="cd" data-src="assets/musics/cd_tal.mp3">💿 TAL</div>
+                <div class="cd" data-src="assets/musics/cd_avril_lavigne.mp3">💿 Avril Lavigne</div>
+                <div class="cd" data-src="assets/musics/cd_tokio_hotel.mp3">💿 Tokio Hotel</div>
+                <div class="cd" data-src="assets/musics/cd_bb_brunes.mp3">💿 BB Brunes</div>
+                <div class="cd" data-src="assets/musics/cd_kyo.mp3">💿 Kyo</div>
+                <div class="cd" data-src="assets/musics/cd_rihanna.mp3">💿 Rihanna</div>
+                <div class="cd" data-src="assets/musics/cd_shy_m.mp3">💿 Shy’m</div>
+                <div class="cd" data-src="assets/musics/cd_adele.mp3">💿 Adele</div>
+                <div class="cd" data-src="assets/musics/cd_linkin_park.mp3">💿 Linkin Park</div>
+            </div>
+
+            <div class="interactive-object backpack">
+                <div class="backpack-text">🎒 Sac à dos vide</div>
+            </div>
+        </div>
 
     </div>
 </body>
+
 </html>
