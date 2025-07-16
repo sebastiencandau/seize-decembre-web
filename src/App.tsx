@@ -235,7 +235,7 @@ const App: React.FC = () => {
                   <MenuChapterTwo startChapterTwo={startChapterTwo} handleLogout={handleLogout} loading={loading} gameState={gameStarted} chapter={chapter} startGame={startGame} />
                 </>
               )
-                : chapterStarted && chapter !== 9 && (
+                : chapterStarted && chapter !== 8 && (
                   <>
                     <BackgroundMusic chapter={chapter!}></BackgroundMusic>
                     <Conversation setGameState={setGameStarted} chapter={chapter!} stopChapter={stopChapter} playerName={localStorage.getItem('playerName')!} />
