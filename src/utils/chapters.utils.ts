@@ -6,6 +6,7 @@ import * as chapterRdv from './chapterOne/chapterRdv.utils';
 import * as chapterFinal from './chapterOne/chapterFinal.utils'
 import * as chapterSeven from './chapterTwo/chapterSeven.utils'
 import * as chapterOneThousand from './chapterTwo/chapterOneThousand.utils'
+import * as chapter_8 from './chapterTwo/chapter_8.utils'
 import { choices } from '../interfaces/choices.interface';
 
 
@@ -27,6 +28,8 @@ export const narativeIndicationsForChapter = (chapterNumber: number) => {
         return chapterSeven.narativeIndications;
     }else if (chapterNumber === 1000){
         return chapterOneThousand.narativeIndications;
+    }else if (chapterNumber === 8){
+        return chapter_8.narativeIndications;
     }
 }
 
